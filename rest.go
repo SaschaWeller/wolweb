@@ -6,9 +6,36 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/gorilla/mux"
 )
+
+// getDeviceStatus returns the cached online status for a single device.
+func getDeviceStatus(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	if !appConfig.EnableStatusCheck {
+		json.NewEncoder(w).Encode(DeviceStatus{Status: "unknown"})
+		return
+	}
+
+	deviceName := strings.ToUpper(mux.Vars(r)["deviceName"])
+	debugLog("Status request: looking up key %q in cache", deviceName)
+
+	val, ok := statusCache.Load(deviceName)
+	if !ok {
+		debugLog("Cache miss for %q — current cache contents:", deviceName)
+		statusCache.Range(func(k, v interface{}) bool {
+			debugLog("  key=%q  value=%+v", k, v)
+			return true
+		})
+		json.NewEncoder(w).Encode(DeviceStatus{Status: "unknown"})
+		return
+	}
+	debugLog("Cache hit for %q: %+v", deviceName, val)
+	json.NewEncoder(w).Encode(val.(DeviceStatus))
+}
 
 // restWakeUpWithDeviceName - REST Handler for Processing URLS /virtualdirectory/apipath/<deviceName>
 func wakeUpWithDeviceName(w http.ResponseWriter, r *http.Request) {

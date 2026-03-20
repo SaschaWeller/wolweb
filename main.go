@@ -26,6 +26,7 @@ import (
 var appConfig AppConfig
 var appData AppData
 var args Args
+var buildID = time.Now().Format("20060102150405") // cache-buster: changes on every restart
 
 type Args struct {
 	ConfigPath string
@@ -40,6 +41,7 @@ func main() {
 	setWorkingDir()
 	loadConfig()
 	loadData()
+	startStatusPoller()
 	setupWebServer()
 
 }
@@ -93,6 +95,9 @@ func setupWebServer() {
 	// Define Wakeup functions with a Device Name
 	router.HandleFunc(basePath+"/wake/{deviceName}", wakeUpWithDeviceName).Methods("GET")
 	router.HandleFunc(basePath+"/wake/{deviceName}/", wakeUpWithDeviceName).Methods("GET")
+
+	// Define device status endpoint
+	router.HandleFunc(basePath+"/status/{deviceName}", getDeviceStatus).Methods("GET")
 
 	if appConfig.ReadOnly == false {
 		// Define Data save Api function

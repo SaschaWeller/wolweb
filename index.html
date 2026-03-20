@@ -9,15 +9,15 @@
     <meta name="apple-mobile-web-app-title" content="WOL Service">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <title>Wake-on-LAN Service</title>
-    <link type="image/x-icon" rel="shortcut icon" href="static/favicon.ico"/>
-    <link type="text/css" rel="stylesheet" href="static/bootstrap/css/bootstrap@5.3.0.min.css">
-    <link type="text/css" rel="stylesheet" href="static/css/jsgrid@1.5.3.min.css" />
-    <link type="text/css" rel="stylesheet" href="static/css/wolweb.css" />
-    <link type="text/css" rel="stylesheet" href="static/css/bootstrap-toaster@5.1.0.min.css"/>
-    <link rel="preload" href="static/bootstrap/css/bootstrap-icons@1.10.5.custom.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <link rel="preload" href="static/css/jsgrid-theme-custom.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <link rel="preload" href="static/css/Navbar-Right-Links-Dark-icons.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <link rel="preload" href="static/css/highlight@11.7.0.custom.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link type="image/x-icon" rel="shortcut icon" href="static/favicon.ico?v={{.BuildID}}"/>
+    <link type="text/css" rel="stylesheet" href="static/bootstrap/css/bootstrap@5.3.0.min.css?v={{.BuildID}}">
+    <link type="text/css" rel="stylesheet" href="static/css/jsgrid@1.5.3.min.css?v={{.BuildID}}" />
+    <link type="text/css" rel="stylesheet" href="static/css/wolweb.css?v={{.BuildID}}" />
+    <link type="text/css" rel="stylesheet" href="static/css/bootstrap-toaster@5.1.0.min.css?v={{.BuildID}}"/>
+    <link rel="preload" href="static/bootstrap/css/bootstrap-icons@1.10.5.custom.min.css?v={{.BuildID}}" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="preload" href="static/css/jsgrid-theme-custom.css?v={{.BuildID}}" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="preload" href="static/css/Navbar-Right-Links-Dark-icons.css?v={{.BuildID}}" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="preload" href="static/css/highlight@11.7.0.custom.min.css?v={{.BuildID}}" as="style" onload="this.onload=null;this.rel='stylesheet'" />
 </head>
 
 <body data-read-only="{{ .ReadOnly }}">
@@ -44,6 +44,13 @@
                     <button id="device-filter-btn" class="btn btn-sm btn-outline-secondary" type="button" title="Filter devices">
                         <i class="bi bi-filter" style="margin-right: 6px;"></i>FILTER
                     </button>
+                </div>
+                <div class="dropdown ms-2">
+                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
+                        data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" title="Show/hide columns">
+                        <i class="bi bi-layout-three-columns" style="margin-right: 6px;"></i>COLUMNS
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="column-selector-menu"></ul>
                 </div>
             </div>
         </div>
@@ -106,17 +113,19 @@
             Project Page:&nbsp;<a href="https://github.com/sameerdhoot/wolweb">https://github.com/sameerdhoot/wolweb</a>
         </p>
     </div>
-    <script type="text/javascript" src="static/js/jquery@3.2.1.min.js"></script>
-    <script type="text/javascript" src="static/js/tether@1.4.0.min.js"></script>
-    <script type="text/javascript" src="static/js/jsgrid@1.5.3.js"></script>
-    <script type="text/javascript" src="static/js/wolweb.js"></script>
-    <script type="text/javascript" src="static/bootstrap/js/bootstrap@5.2.3.min.js"></script>
-    <script type="text/javascript" src="static/bootstrap/js/bootstrap-auto-dark-mode.js"></script>
-    <script type="text/javascript" src="static/js/highlight@11.7.0.js"></script>
-    <script type="text/javascript" src="static/js/bootstrap-toaster@5.1.0.min.js"></script>
+    <script type="text/javascript" src="static/js/jquery@3.2.1.min.js?v={{.BuildID}}"></script>
+    <script type="text/javascript" src="static/js/tether@1.4.0.min.js?v={{.BuildID}}"></script>
+    <script type="text/javascript" src="static/js/jsgrid@1.5.3.js?v={{.BuildID}}"></script>
+    <script type="text/javascript" src="static/js/wolweb.js?v={{.BuildID}}"></script>
+    <script type="text/javascript" src="static/bootstrap/js/bootstrap@5.2.3.min.js?v={{.BuildID}}"></script>
+    <script type="text/javascript" src="static/bootstrap/js/bootstrap-auto-dark-mode.js?v={{.BuildID}}"></script>
+    <script type="text/javascript" src="static/js/highlight@11.7.0.js?v={{.BuildID}}"></script>
+    <script type="text/javascript" src="static/js/bootstrap-toaster@5.1.0.min.js?v={{.BuildID}}"></script>
     <script>
         window.vDir = "{{$.VDir}}"
         window.bCastIP = "{{$.BCastIP}}"
+        window.enableStatusCheck = {{$.EnableStatusCheck}}
+        window.statusPollInterval = {{$.StatusPollInterval}}
 
         {{ if not .HideAPIDocs }}
         $( "#code-element" ).load( "static/api-sample.txt" , function() {

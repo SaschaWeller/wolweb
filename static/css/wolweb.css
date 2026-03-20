@@ -127,6 +127,47 @@ html[data-bs-theme="dark"] nav.navbar {
   font-size: smaller;
 }
 
-.jsgrid-table {
-    min-width: 900px;
+/* Horizontal scroll when columns exceed viewport width */
+#GridDevices .jsgrid-grid-header,
+#GridDevices .jsgrid-grid-body {
+    overflow-x: auto;
 }
+
+.jsgrid-table {
+    min-width: auto;
+    table-layout: auto;
+}
+
+/* Per-column minimum widths */
+.col-name        { min-width: 140px; }
+.col-status      { min-width: 100px; }
+.col-mac         { min-width: 160px; }
+.col-ip          { min-width: 155px; }
+.col-device-ip   { min-width: 130px; }
+.col-resolved-ip { min-width: 130px; }
+.col-interface   { min-width: 110px; }
+.col-note        { min-width: 160px; }
+.col-control     { min-width: 100px; }
+.col-command     { min-width: 125px; }
+
+
+/* --------- Device Status Indicator --------- */
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.status-dot {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+.status-label {
+    font-size: 0.85em;
+    text-transform: capitalize;
+}
+.status-online  { background-color: #28a745; }
+.status-offline { background-color: #dc3545; }
+.status-unknown { background-color: #6c757d; }

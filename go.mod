@@ -1,12 +1,14 @@
 module github.com/sameerdhoot/wolweb
 
-go 1.19
+go 1.24.0
 
 require (
 	github.com/gorilla/handlers v1.5.1
 	github.com/gorilla/mux v1.8.0
 	github.com/ilyakaznacheev/cleanenv v1.4.2
 )
+
+require github.com/gosnmp/gosnmp v1.43.2 // indirect
 
 require (
 	github.com/BurntSushi/toml v1.1.0 // indirect

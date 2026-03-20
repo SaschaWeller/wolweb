@@ -14,17 +14,23 @@ var indexHtml string
 func renderHomePage(w http.ResponseWriter, r *http.Request) {
 
 	pageData := struct {
-		Devices     []Device
-		VDir        string
-		BCastIP     string
-		ReadOnly    bool
-		HideAPIDocs bool
+		Devices            []Device
+		VDir               string
+		BCastIP            string
+		ReadOnly           bool
+		HideAPIDocs        bool
+		EnableStatusCheck  bool
+		StatusPollInterval int
+		BuildID            string
 	}{
-		Devices:     appData.Devices,
-		VDir:        appConfig.VDir,
-		BCastIP:     appConfig.BCastIP,
-		ReadOnly:    appConfig.ReadOnly,
-		HideAPIDocs: appConfig.HideAPIDocs,
+		Devices:            appData.Devices,
+		VDir:               appConfig.VDir,
+		BCastIP:            appConfig.BCastIP,
+		ReadOnly:           appConfig.ReadOnly,
+		HideAPIDocs:        appConfig.HideAPIDocs,
+		EnableStatusCheck:  appConfig.EnableStatusCheck,
+		StatusPollInterval: appConfig.StatusPollInterval,
+		BuildID:            buildID,
 	}
 	if appConfig.VDir == "/" {
 		pageData.VDir = ""
